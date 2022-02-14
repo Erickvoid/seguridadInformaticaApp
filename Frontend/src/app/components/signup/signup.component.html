@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                Registro
+            </div>
+            <div class="card-body">
+                <form (submit)="signUp()">
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="user.userName" name="User Name" class="form-control"
+                            placeholder="Usuario" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="user.name" name="name" class="form-control"
+                            placeholder="nombre(s)" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="user.lastnamePaterno" name="apellidoPaterno"
+                            class="form-control" placeholder="Apellido Paterno" required autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="number" [(ngModel)]="user.phoneNumber" name="phoneNumber" class="form-control"
+                            placeholder="Numero de telefono" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="user.addressCalle" name="addressCalle" class="form-control"
+                            placeholder="calle y número" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="user.addressColonia" name="addressColonia" class="form-control"
+                            placeholder="colonia" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" [(ngModel)]="user.codPostal" name="codPostal" class="form-control"
+                            placeholder="Código Postal" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" [(ngModel)]="user.password" name="password" class="form-control"
+                            placeholder="Contraseña" required>
+                    </div>
+                    <button class="btn btn-primary btn-block">
+                        Registrarse
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
