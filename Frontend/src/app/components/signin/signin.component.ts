@@ -18,7 +18,9 @@ export class SigninComponent implements OnInit {
   ngOnInit() {
   }
 
+
   signIn() {
+    console.log(this.user)
     this.authService.signInUser(this.user)
       .subscribe(
         res => {
@@ -26,7 +28,12 @@ export class SigninComponent implements OnInit {
           localStorage.setItem('token', res.token);
           this.router.navigate(['/userLogged']);
         },
-        err => console.log(err)
+
+        err => {
+          console.log(err.error)
+          alert(err.error)
+        }
+
       )
   }
 

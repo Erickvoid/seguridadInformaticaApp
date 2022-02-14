@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service'
 import { Router } from '@angular/router'
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CustomValidators } from '../../custom-validators';
+
 
 @Component({
   selector: 'app-signup',
@@ -9,46 +12,64 @@ import { Router } from '@angular/router'
 })
 export class SignupComponent implements OnInit {
 
-  user = {
+  form: FormGroup;
 
-  }
   constructor(
     private authService: AuthService,
     private router: Router
   ) { }
-
+  createForm() {
+    this.form = new FormGroup({
+      userName: new FormControl("", Validators.required),
+      password: new FormControl("", Validators.compose([
+        Validators.required,
+        Validators.minLength(8),
+        CustomValidators.patternValidator(/\d/, {
+          hasNumber: true
+        }),
+        CustomValidators.patternValidator(/[A-Z]/, {
+          hasCapitalCase: true
+        }),
+        CustomValidators.patternValidator(/[a-z]/, {
+          hasSmallCase: true
+        }),
+        CustomValidators.patternValidator(
+          /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
+          {
+            hasSpecialCharacters: true
+          }
+        )
+      ])),
+      name: new FormControl("", Validators.required),
+      apellidoPaterno: new FormControl("", Validators.required),
+      apellidoMaterno: new FormControl("", Validators.required),
+      phoneNum: new FormControl("", [
+        Validators.required,
+        Validators.minLength(10)]
+      ),
+      addressCalle: new FormControl("", Validators.required),
+      addressColonia: new FormControl("", Validators.required),
+      codPostal: new FormControl("", [Validators.required, Validators.minLength(5)])
+    })
+  }
   ngOnInit() {
+    this.createForm();
   }
 
-
-  validateForm() {
-    if (true) {
-      // Si no se cumple la condicion...
-      alert('[ERROR] El campo debe tener un valor de nombre');
-      return false;
-    }
-    else if (true) {
-      // Si no se cumple la condicion...
-      alert('[ERROR] El campo debe tener un valor de...');
-      return false;
-    }
-    else if (true) {
-      // Si no se cumple la condicion...
-      alert('[ERROR] El campo debe tener un valor de...');
-      return false;
-    }
-    return true;
-  }
   signUp() {
-    console.log(this.user)
-    this.authService.signUpUser(this.user)
+    let user = this.form.value;
+    console.log(user)
+    this.authService.signUpUser(user)
       .subscribe(
         res => {
           console.log(res);
           localStorage.setItem('token', res.token);
           this.router.navigate(['/home']);
         },
-        err => console.log(err)
+        err => {
+          console.log(err)
+          alert("El usuario ya se encuentra en uso!")
+        }
       )
   }
 
